@@ -1,0 +1,3 @@
+spring.security.user.name=fulvio
+spring.security.user.password=dio123
+spring.security.user.roles=USERS

@@ -1,0 +1,38 @@
+package diospringsecurity;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import jdk.jfr.Description;
+
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfigDio {
+	
+	
+    @Bean
+    @Description("In memory Userdetails service registered since DB doesn't have user table ")
+    public UserDetailsService users() {
+        // The builder will ensure the passwords are encoded before saving in memory
+        UserDetails user = User.builder()
+                .username("user")
+                .password("{noop}user123")
+                .roles("USER")
+                .build();
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password("{noop}admin123")
+                .roles("USER", "ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user, admin);
+    }
+
+}
